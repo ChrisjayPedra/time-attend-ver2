@@ -21,7 +21,7 @@ LoginComponent {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
-    this._http.get<any>("http://localhost:3000/employee")
+    this._http.get<any>("https://time-attendance.onrender.com/employee")
     .subscribe(res=>{
       const admin = res.find((a:any)=>{
         this.User.setUserName(a.userName);
@@ -46,7 +46,7 @@ LoginComponent {
         this.validateForm.reset();
       }
       else{
-        this._http.get<any>("http://localhost:3000/user")
+        this._http.get<any>("https://time-attendance.onrender.com/user")
         .subscribe(res=>{
           const admin = res.find((a:any)=>{
             return a.userName === this.validateForm.value.userName && a.password === this.validateForm.value.password && a.accessType === 'admin'
