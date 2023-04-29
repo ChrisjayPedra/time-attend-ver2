@@ -1,0 +1,195 @@
+
+<nz-content style="background: transparent">
+
+  <div   *ngFor="let item of employee_details">
+      <!-- <div class="cardI" >
+        <img src="{{item.image}}">
+      </div> -->
+      <nz-avatar class="cardI" [nzSize]="200" nzIcon="user" nz-page-header-avatar nzSrc="{{item.image}}"></nz-avatar>
+      <nz-page-header style="margin-left:240px; margin-top: 20px ; padding:0%">
+      <nz-page-header-title style="font-size:1.3vw">  <h1 nz-typography>{{ item.fname}} {{ item.mname}} {{ item.lname}}</h1></nz-page-header-title>
+      <nz-page-header-tags>
+        <nz-tag [nzColor]="'blue'">{{item.userName}}</nz-tag>
+      </nz-page-header-tags>
+        <nz-page-header-extra>
+          <nz-space>
+
+            <button   class="button_change"  nzShape="round"  (click)="back()" nz-button nzType="primary" style="margin: 0 10px"><span nz-icon nzType="arrow-left" nzTheme="outline"></span>back</button>
+            <!-- <button   class="button_change"  nzShape="round"  (click)="startEdit(item.id)" nz-button nzType="primary" style="margin: 0 10px"><span nz-icon nzType="edit" nzTheme="outline"></span>Edit Details</button> -->
+
+
+          </nz-space>
+        </nz-page-header-extra>
+        <nz-page-header-content>
+          <nz-row >
+            <nz-statistic  nzTitle="Email" nzValue="{{item.email}}"></nz-statistic>
+          </nz-row>
+
+        </nz-page-header-content>
+
+      </nz-page-header>
+
+      <nz-content class="content">
+        <nz-card style="background: transparent; border:0px; ">
+              <nz-card  class="card2" style=" background-color: rgba(255,255,255); text-align:center;" nzTitle="Employee Name">
+                <div nz-row >
+                  <div nz-col class="emp" >
+                    <form>
+                      <nz-form-item>
+                          <nz-form-label>
+                            <span class="label">First Name</span>
+                          </nz-form-label>
+                           <h2><u>{{item.fname}}</u></h2>
+                      </nz-form-item>
+                    </form>
+                  </div>
+                  <div nz-col class="emp" >
+                    <form>
+                      <nz-form-item>
+                          <nz-form-label>
+                          <span class="label">Middle Name</span>
+                          </nz-form-label>
+                           <h2><u>{{item.mname}}</u></h2>
+                      </nz-form-item>
+                    </form>
+                  </div>
+                  <div nz-col class="emp" >
+                    <form>
+                      <nz-form-item>
+                          <nz-form-label>
+                          <span class="label">Last Name</span>
+                          </nz-form-label>
+                           <h2><u>{{item.lname}}</u></h2>
+                      </nz-form-item>
+                    </form>
+                  </div>
+                </div>
+
+              </nz-card>
+              <nz-card  class="card3" style=" background-color: rgba(255,255,255); text-align:center;" nzTitle="Employee Account">
+                <div nz-row >
+                  <div nz-col class="emp" >
+                    <form>
+                      <nz-form-item>
+                          <nz-form-label>
+                            <span class="label">Username</span>
+                          </nz-form-label>
+                           <h2><u>{{item.userName}}</u></h2>
+                      </nz-form-item>
+                    </form>
+                  </div>
+                  <div nz-col class="emp" >
+                    <form>
+                      <nz-form-item>
+                          <nz-form-label>
+                          <span class="label">Email</span>
+                          </nz-form-label>
+                           <h2><u>{{item.email}}</u></h2>
+                      </nz-form-item>
+                    </form>
+                  </div>
+                  <div nz-col class="emp" >
+                    <form>
+                      <nz-form-item>
+                          <nz-form-label>
+                          <span class="label">Mobile Number</span>
+                          </nz-form-label>
+                           <h2><u>{{item.number}}</u></h2>
+                      </nz-form-item>
+                    </form>
+                  </div>
+                  <div nz-col class="emp" >
+                    <form>
+                      <nz-form-item>
+                          <nz-form-label>
+                          <span class="label">password</span>
+                          </nz-form-label>
+                           <h2>{{item.password}}</h2>
+                      </nz-form-item>
+                    </form>
+                  </div>
+                </div>
+                <div nz-col class="emp" >
+                  <form>
+                    <nz-form-item>
+                        <nz-form-label>
+                        <span class="label">Date of Employment</span>
+                        </nz-form-label>
+                         <h2><u>{{item.date_join}}</u></h2>
+                    </nz-form-item>
+                  </form>
+                </div>
+              </nz-card>
+              <nz-card  class="card1" style=" background-color: rgba(255,255,255); text-align:center;" nzTitle="Employee Position">
+              <div nz-row >
+                <div nz-col class="emp" >
+                  <form>
+                    <nz-form-item>
+                        <nz-form-label>
+                          <span class="label">Position</span>
+                        </nz-form-label>
+                         <h2><u>{{item.position}}</u></h2>
+                    </nz-form-item>
+                  </form>
+                </div>
+                <div nz-col class="emp" >
+                  <form>
+                    <nz-form-item>
+                        <nz-form-label>
+                        <span class="label">Department</span>
+                        </nz-form-label>
+                         <h2><u>{{item.department}}</u></h2>
+                    </nz-form-item>
+                  </form>
+                </div>
+              </div>
+              </nz-card>
+
+              <nz-card  class="card4" style=" background-color: rgba(255,255,255); text-align:center;" nzTitle="Apply Leave">
+                <nz-badge>
+                  <nz-content *ngIf="item.apply.approval ==='approved'">
+                    <nz-tag [nzColor]="'green'">{{item.apply.approval}}</nz-tag>
+                  </nz-content>
+                  <nz-content *ngIf="item.apply.approval ==='pending'">
+                    <nz-tag [nzColor]="'blue'">{{item.apply.approval}}</nz-tag>
+                  </nz-content>
+                <nz-content *ngIf="item.apply.approval ==='approved' || item.apply.approval === 'pending'">
+                  <div nz-row>
+                    <div nz-col class="emp">
+                      <form>
+                        <nz-form-item>
+                            <nz-form-label>
+                              <span class="label">Date from</span>
+                            </nz-form-label>
+                             <h2><u>{{item.apply.date_from}}</u></h2>
+                        </nz-form-item>
+                        <nz-form-item>
+                          <nz-form-label>
+                            <span class="label">Date to</span>
+                          </nz-form-label>
+                           <h2><u>{{item.apply.date_to}}</u></h2>
+                      </nz-form-item>
+                      <nz-form-item>
+                        <nz-form-label>
+                          <span class="label">Type</span>
+                        </nz-form-label>
+                         <h2><u>{{item.apply.type}}</u></h2>
+                    </nz-form-item>
+                    <nz-form-item>
+                      <nz-form-label>
+                        <span class="label">Reason</span>
+                      </nz-form-label>
+                       <h2><u>{{item.apply.reason}}</u></h2>
+                  </nz-form-item>
+                      </form>
+                    </div>
+
+                  </div>
+                </nz-content>
+              </nz-badge>
+                </nz-card>
+
+        </nz-card>
+
+
+ </nz-content>

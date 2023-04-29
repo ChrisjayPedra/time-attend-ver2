@@ -1,0 +1,50 @@
+
+<nz-layout class="layout" style="background:transparent">
+  <nz-sider style="border-radius:5px; background:transparent" nzCollapsible [(nzCollapsed)]="isCollapsed"   [nzTrigger]="null">
+    <div   [ngClass]="{'nz-collapsed': isCollapsed}" >
+        <div class="image-container" >
+          <img src="{{image}}" [ngClass]="{'collapsed': isCollapsed}">
+        </div>
+    </div>
+
+
+
+    <ul nz-menu nzTheme="light"  style="border-radius:5px; background:transparent" nzMode="inline">
+      <li nz-menu-item    [routerLink]="['/time_in_out/in_out']"  nzSelected>
+
+        <span nz-icon nzType="dashboard" nzTheme="outline"></span>
+        <span><a >Time In/Out</a></span>
+      </li>
+      <li nz-menu-item [routerLink]="['/time_in_out/file_leave_absent']">
+        <span nz-icon nzType="file-text" nzTheme="outline"></span>
+        <span>File Leave/Absent</span>
+      </li>
+      <li nz-menu-item [routerLink]="['/time_in_out/profile']">
+        <span nz-icon nzType="setting" nzTheme="outline"></span>
+        <span>Settings</span>
+      </li>
+
+      <li nz-menu-item (click)="logout()">
+        <span nz-icon nzType="logout"  ></span>
+        <span>Logout</span>
+      </li>
+    </ul>
+  </nz-sider>
+
+  <nz-layout style="background:transparent">
+    <nz-header style="background:transparent">
+      <span style="background:transparent"
+        class="trigger"
+        nz-icon
+        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        (click)="isCollapsed = !isCollapsed"
+      ></span>
+    </nz-header>
+    <router-outlet>
+
+    </router-outlet>
+  </nz-layout>
+</nz-layout>
+
+
+

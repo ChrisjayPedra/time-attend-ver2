@@ -1,0 +1,60 @@
+
+.image-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+img {
+  width:60%;
+  height: 20%;
+  max-width: 100%;
+  transition: height 0.5s ease-out;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.collapsed {
+  max-width:50%;
+  transition: height 0.5s ease-in-out;
+}
+
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+nz-avatar {
+  margin-top: 16px;
+  margin-right: 16px;
+}
+.logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
+
+}
+nz-header {
+  background:transparent;
+  padding: 0;
+}
+
+
+nz-footer {
+  text-align: center;
+   background:transparent;
+}
+.layout {
+  min-height: 100vh;
+  background-color: transparent;
+}
+
+

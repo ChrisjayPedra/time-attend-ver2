@@ -1,0 +1,108 @@
+<nz-content style="background: transparent">
+  <nz-breadcrumb>
+   <nz-breadcrumb-item style="font-size:1.3vw">Appy for Leave or Absent</nz-breadcrumb-item>
+
+  </nz-breadcrumb>
+
+
+
+
+
+
+
+  <br />
+  <div class="inner-content">
+
+<nz-card  *ngIf="open_card" class="card"style="background-color:white; text-align:center" nzTitle="Apply Form">
+  <form nz-form [formGroup]="validateForm"  class="register-form" (ngSubmit)="apply_leave()">
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" >Type</nz-form-label>
+      <nz-form-control [nzSpan]="12" >
+        <nz-radio-group formControlName="applyType"[(ngModel)]="radioValue">
+          <label nz-radio nzValue="vacation leave">Vacation leave</label>
+          <label nz-radio nzValue="sick leave">Sick leave</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" >Date From</nz-form-label>
+      <nz-form-control [nzSpan]="12" >
+        <nz-date-picker formControlName="date_from" [(ngModel)]="date_from" ></nz-date-picker>
+      </nz-form-control>
+
+    </nz-form-item>
+
+  <nz-form-item>
+      <nz-form-label [nzSpan]="7" >Date To </nz-form-label>
+      <nz-form-control [nzSpan]="12" >
+        <nz-date-picker formControlName="date_to" [(ngModel)]="date_to" ></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" >Reasons</nz-form-label>
+      <nz-form-control [nzSpan]="12" >
+        <nz-textarea-count >
+          <textarea formControlName="reason" nz-input rows="2" placeholder="Type here your reason"></textarea>
+        </nz-textarea-count>
+      </nz-form-control>
+    </nz-form-item>
+
+
+
+    <nz-form-item>
+      <nz-form-control [nzOffset]="6" [nzSpan]="12">
+        <button nz-button nzType="primary" [disabled]="!validateForm.valid"  nzShape="round">Apply</button>
+        <button nz-button (click)="resetForm($event)"  nzShape="round">Reset</button>
+      </nz-form-control>
+    </nz-form-item>
+
+  </form>
+  </nz-card>
+
+  <nz-result  *ngIf="open_result_pending" [nzIcon]="'smile-twotone'" nzTitle="Apply form currently pending">
+    <div nz-result-extra>
+      <button [routerLink]="['/time_in_out/in_out']" nz-button nzType="primary">back to dashboard</button>
+
+    </div>
+  </nz-result>
+
+  <nz-result  *ngIf="open_result_approved" nzStatus="success" nzTitle="Apply form Approved" >
+    <div nz-result-extra>
+      <button nz-button [routerLink]="['/time_in_out/in_out']" nzType="primary">back to dashboard</button>
+
+    </div>
+  </nz-result>
+
+  <nz-result  *ngIf="open_result_ended" nzStatus="warning" nzTitle="Leave ended">
+    <div nz-result-extra>
+      <button nz-button (click)="declined_ended()"  nzType="primary">Apply leave or absent</button>
+
+    </div>
+  </nz-result>
+
+  <nz-result  *ngIf="open_result_declined" nzStatus="error" nzTitle="Apply form declined">
+    <div nz-result-extra>
+      <button nz-button (click)="declined_ended()"  nzType="primary">Apply leave or absent</button>
+
+    </div>
+  </nz-result>
+
+  <nz-result  *ngIf="open_result_ongoing" nzStatus="403" nzTitle="you are currently in leave/absent">
+    <div nz-result-extra>
+      <button nz-button [routerLink]="['/time_in_out/in_out']" nzType="primary">back to dashboard</button>
+
+    </div>
+  </nz-result>
+
+
+  </div>
+
+
+</nz-content>
+
+
+

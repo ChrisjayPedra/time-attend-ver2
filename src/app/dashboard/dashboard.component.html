@@ -1,0 +1,354 @@
+
+<nz-content style="background: transparent; margin-top:0%">
+
+  <nz-page-header style="margin:0% ; padding:0%">
+    <nz-page-header-title style="font-size:1.3vw">Dashboard</nz-page-header-title>
+    <nz-page-header-subtitle>Today Status</nz-page-header-subtitle>
+    <nz-page-header-extra>
+      <nz-space>
+
+        <button   class="button_change"  nzShape="round" (click)="addEvent()" nz-button nzType="primary" style="margin: 0 10px"><span nz-icon nzType="schedule" nzTheme="outline"></span>Add event</button>
+        <button   class="button_change"  nzShape="round" (click)="editEvent()" nz-button nzType="primary" style="margin: 0 10px"><span nz-icon nzType="calendar" nzTheme="outline"></span>View event list</button>
+        <nz-badge [nzCount]="pending_count">
+          <button class="button_change"  nzShape="round" (click)="open()" nz-button nzType="primary"><span nz-icon nzType="audit" nzTheme="outline"></span>Pending leave request</button>
+
+        </nz-badge>
+
+      </nz-space>
+    </nz-page-header-extra>
+    <nz-page-header-content>
+      <nz-row >
+        <nz-tag [nzColor]="'green'"> <nz-statistic  nzTitle="Present"nzValue="{{present_count}}"> </nz-statistic></nz-tag>
+        <nz-tag [nzColor]="'red'"  style="margin: 0 20px">  <nz-statistic  nzTitle="Absent" nzValue="{{absent_count}}"></nz-statistic></nz-tag>
+        <nz-tag [nzColor]="'orange'"  style="margin: 0 20px">  <nz-statistic  nzTitle="Late" nzValue="{{late_count}}"></nz-statistic></nz-tag>
+        <nz-statistic  nzTitle="Date" nzValue="{{date}}" style="margin: 0 20px"></nz-statistic>
+        <div class="blob">
+          <nz-statistic  nzTitle="Time" nzValue="{{currentTimee | date: 'mediumTime' }}"></nz-statistic>
+        </div>
+        <nz-statistic  nzTitle="New Employee" nzValue="{{new_employee_count}}" style="margin: 0 20px;"></nz-statistic>
+
+      </nz-row>
+
+    </nz-page-header-content>
+
+  </nz-page-header>
+
+<ng-container style="background: transparent; margin:0%" >
+
+  <nz-layout style="background: transparent; margin:0%">
+
+    <nz-content style="background: transparent; margin-left:0%">
+      <ng-container style="height: 200px ; width: 700px;">
+        <nz-calendar   [(ngModel)]="selectedDate" (ngModelChange)="onDateChange($event)" class="calendar"  nzHeight="600px" [nzFullscreen]="true" >
+
+          <ul *nzDateCell="let date" class="events">
+              <div *ngFor="let item of present" >
+                    <ng-container *ngIf="getMonthData(item.date,date)">
+                      <ng-container *ngIf="getDateData(item.date,date)">
+
+                        <nz-tag  [nzColor]="'green'"><span nz-icon nzType="user" nzTheme="outline"></span>Present<nz-badge [nzStatus]="'success'" [nzText]="item.attendees.fname"> </nz-badge></nz-tag>
+
+                      </ng-container>
+                    </ng-container>
+              </div>
+              <div *ngFor="let item of absent" >
+                <ng-container *ngIf="getMonthData(item.date,date)">
+                  <ng-container *ngIf="getDateData(item.date,date)">
+
+                    <nz-tag [nzColor]="'red'"><span nz-icon nzType="user" nzTheme="outline"></span>Absent<nz-badge [nzStatus]="'error'" [nzText]="item.attendees.fname"></nz-badge></nz-tag>
+
+                  </ng-container>
+                </ng-container>
+
+          </div>
+
+          <div *ngFor="let item of late" >
+            <ng-container *ngIf="getMonthData(item.date,date)">
+              <ng-container *ngIf="getDateData(item.date,date)">
+
+                <nz-tag [nzColor]="'yellow'"><span nz-icon nzType="user" nzTheme="outline"></span>Late<nz-badge [nzStatus]="'warning'" [nzText]="item.attendees.fname"></nz-badge></nz-tag>
+
+              </ng-container>
+            </ng-container>
+
+      </div>
+
+              <div *ngFor="let item of calapproved">
+                        <ng-container *ngIf="getMonthData(item.apply.date_from,date)">
+                          <ng-container *ngIf="getDateData(item.apply.date_from,date)">
+                            <ng-container *ngIf="item.apply.type === 'sick leave' ">
+
+                              <nz-tag [nzColor]="'red'"><span nz-icon nzType="home" nzTheme="outline"> </span> Start  of sick leave  <nz-badge [nzStatus]="'success'" [nzText]="item.fname"> <nz-avatar [nzSize]="15" nzIcon="user" nzSrc="{{item.image}}"></nz-avatar></nz-badge></nz-tag>
+
+                            </ng-container>
+
+                            <ng-container *ngIf="item.apply.type === 'vacation leave' ">
+
+                              <nz-tag [nzColor]="'magenta'"><span nz-icon nzType="home" nzTheme="outline"></span> Start  of Vacation leave  <nz-badge [nzStatus]="'success'" [nzText]="item.fname"> </nz-badge></nz-tag>
+
+                            </ng-container>
+                          </ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="getMonthData(item.apply.date_to,date)">
+                          <ng-container *ngIf="getDateData(item.apply.date_to,date)">
+                            <ng-container *ngIf="item.apply.type === 'sick leave' ">
+                              <nz-tag [nzColor]="'red'"><span nz-icon nzType="home" nzTheme="outline"></span> End  of Sick leave  <nz-badge nzColor="#f50" [nzText]="item.fname"> <nz-avatar [nzSize]="15" nzIcon="user" nzSrc="{{item.image}}"></nz-avatar></nz-badge></nz-tag>
+
+                            </ng-container>
+                            <ng-container *ngIf="item.apply.type === 'vacation leave' ">
+                              <nz-tag [nzColor]="'purple'"><span nz-icon nzType="home" nzTheme="outline"></span> End  of Vacation leave  <nz-badge nzColor="#f50" [nzText]="item.fname"></nz-badge></nz-tag>
+
+                            </ng-container>
+
+                          </ng-container>
+                        </ng-container>
+
+                      </div>
+                      <div *ngFor="let item of eventlist">
+                        <ng-container *ngIf="getMonthData(item.date,date)">
+                          <ng-container *ngIf="getDateData(item.date,date)">
+                            <div *ngIf="item.eventtype ==='meeting'">
+                              <nz-tag [nzColor]="'#f50'"><span nz-icon nzType="pushpin" nzTheme="fill"></span> Meeting  <nz-badge nzColor="#f50" [nzText]="item.eventtype"> {{item.time}} {{item.description}}</nz-badge></nz-tag>
+                            </div>
+                            <div *ngIf="item.eventtype ==='activity'">
+                              <nz-tag [nzColor]="'#108ee9'"><span nz-icon nzType="pushpin" nzTheme="fill"></span> Activity  <nz-badge nzColor="#f50" [nzText]="item.eventtype"> {{item.time}} {{item.description}}</nz-badge></nz-tag>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+                      </div>
+
+          </ul>
+
+        </nz-calendar>
+       </ng-container>
+
+    </nz-content>
+    <nz-sider style="background-color: rgba(236, 255, 246, 0.678); border-radius: 15px;">
+    <nz-content style="height: 180px; margin-top: 10%;">
+      <nz-timeline  *ngFor="let item of timeline_item " style="background: transparent;">
+
+            <nz-timeline-item nzColor="red" *ngIf="item.name === 'meeting'" >
+              {{item.time}} {{item.name}}  {{item.description}}
+             </nz-timeline-item >
+            <nz-timeline-item [nzDot]="dotTemplate" style="background:transparent" *ngIf="item.description === 'time in'">
+
+              {{item.time}} {{item.name}}  {{item.description}}
+             </nz-timeline-item>
+      </nz-timeline>
+
+      <ng-template #dotTemplate style="background: transparent;" >
+        <span nz-icon nzType="clock-circle-o" style=" border-radius: 100px; font-size: 16px;"></span>
+      </ng-template>
+
+    </nz-content>
+
+
+    </nz-sider>
+
+
+  </nz-layout>
+
+
+
+
+
+
+
+</ng-container>
+
+
+
+</nz-content>
+
+
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'Add Event'"  (nzOnCancel)="handleCancel()" [nzFooter]="null">
+  <div  *nzModalContent nz-form-item >
+    <form nz-form [formGroup]="validateForm"  class="register-form" (ngSubmit)="createEvent()">
+      <nz-form-item>
+        <nz-form-label >Event Type</nz-form-label>
+        <nz-form-control>
+          <nz-radio-group formControlName="eventType"[(ngModel)]="radioValue">
+            <label nz-radio nzValue="meeting">Meeting</label>
+            <label nz-radio nzValue="activity">Activity</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label >Date and Time </nz-form-label>
+        <nz-form-control  >
+          <nz-date-picker formControlName="date_from" [(ngModel)]="date_from" ></nz-date-picker>
+        </nz-form-control>
+        <nz-form-control >
+          <nz-time-picker  nzFormat="h:mm a" [nzUse12Hours]="true" formControlName="timePicker" ></nz-time-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label >Description</nz-form-label>
+        <nz-form-control  >
+          <nz-textarea-count >
+            <textarea formControlName="description" nz-input rows="2" placeholder="Type here your reason"></textarea>
+          </nz-textarea-count>
+        </nz-form-control>
+      </nz-form-item>
+
+
+      <nz-form-item>
+        <nz-form-control [nzOffset]="8" [nzSpan]="16">
+          <button nz-button nzType="primary" [disabled]="!validateForm.valid"  nzShape="round">Create</button>
+          <button nz-button (click)="resetForm($event)"  nzShape="round">Reset</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+
+
+
+  </div>
+</nz-modal>
+
+
+
+
+
+
+<nz-modal [(nzVisible)]="isVisiblee" [nzTitle]="'Edit Event'"  (nzOnCancel)="handleCancell()" [nzFooter]="null" nzWidth="800px">
+  <div  *nzModalContent nz-form-item >
+
+    <nz-table #smallTable nzSize="small" #editRowTable nzBordered [nzData]="eventlist" >
+      <thead  >
+        <tr  style="height: 20px">
+          <th nzAlign="center" nzWidth="3%" >Date</th>
+          <th nzAlign="center" nzWidth="10%">Time</th>
+          <th nzAlign="center" nzWidth="10%">Event Type</th>
+          <th nzAlign="center" nzWidth="10%">Description</th>
+          <th nzAlign="center" nzWidth="10%">Action</th>
+
+        </tr>
+      </thead>
+      <tbody >
+
+
+        <tr  *ngFor="let data of  editRowTable.data" class="editable-row">
+          <ng-container *ngIf="!editCachee[data.id].edit; else editTemplate">
+
+            <td nzAlign="center">{{ data.date }}</td>
+
+            <td nzAlign="center">{{ data.time}}</td>
+            <td nzAlign="center">
+              <div *ngIf="data.eventtype ==='meeting'">
+                <nz-tag [nzColor]="'red'"  style="margin: 0 20px">{{ data.eventtype}}</nz-tag>
+              </div>
+              <div *ngIf="data.eventtype ==='activity'">
+                <nz-tag [nzColor]="'warning'"  style="margin: 0 20px">{{ data.eventtype}}</nz-tag>
+              </div>
+            </td>
+            <td nzAlign="center">{{ data.description}}</td>
+
+
+
+            <td nzAlign="center">
+              <a (click)="startEditt(data.id)" style="padding:10px">
+              <span nz-icon nzType="edit" nzTheme="outline"></span> Edit
+
+              </a>
+
+              <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteEmployee(data.id)"  nz-button nzType="link" nzDanger>
+              <span nz-icon nzType="user-delete" nzTheme="outline" ></span>Delete
+              </a>
+
+            </td>
+
+          </ng-container>
+          <ng-template #editTemplate>
+
+
+            <td><input type="text" nz-input [(ngModel)]="editCachee[data.id].data.date" /></td>
+            <td><input type="text" nz-input [(ngModel)]="editCachee[data.id].data.time" /></td>
+             <nz-select nzAlign="center" nzPlaceHolder="Select an status type" [(ngModel)]="editCachee[data.id].data.eventtype">
+              <nz-option nzValue="meeting" nzLabel="Meeting"></nz-option>
+              <nz-option nzValue="activity" nzLabel="Activity"></nz-option>
+            </nz-select>
+            <td><input type="text" nz-input [(ngModel)]="editCachee[data.id].data.description" /></td>
+
+
+
+
+
+
+            <td nzAlign="center">
+              <a (click)="saveUserr(data.id)" class="save">Save</a>
+              <a nz-popconfirm nzPopconfirmTitle="Sure to cancel?" (nzOnConfirm)="cancelEditt(data.id)">Cancel</a>
+            </td>
+
+          </ng-template>
+
+
+        </tr>
+
+
+
+      </tbody>
+    </nz-table>
+  </div>
+</nz-modal>
+
+
+
+
+
+
+
+
+
+
+<nz-drawer
+[nzBodyStyle]="{ overflow: 'auto' } "
+[nzMaskClosable]="false"
+[nzWidth]="720"
+[nzVisible]="visible"
+nzTitle="Employee Request list"
+(nzOnClose)="close()"
+>
+<ng-container  style="background:transparent" class="container"  *nzDrawerContent>
+  <div  *ngFor="let employee of employee_list_final">
+    <div class="Employee List" >
+      <nz-card class="cart-card" nzHoverable style="width:600px; border-radius:25px; margin:20px; background-color:rgb(206, 233, 255); border-color: black;">
+          <form>
+            <nz-form-item>
+              <nz-form-label>Employee details</nz-form-label>
+              <nz-form-control>
+                <h5>ID no. {{employee.id}}</h5>
+                <h5>Name: {{employee.fname}} {{employee.mname}} {{employee.lname}}</h5>
+                <h5>Department: {{employee.department}}</h5>
+                <h5>Position: {{employee.position}}</h5>
+                <h5>Type: {{employee.apply.type}}</h5>
+              </nz-form-control>
+              <nz-form-label>Leave Date</nz-form-label>
+              <nz-form-control>
+                <h5>From: {{employee.apply.date_from}}</h5>
+                <h5>To: {{employee.apply.date_to}}</h5>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label>Reason For {{employee.apply.type}}</nz-form-label>
+              <nz-form-control>
+                <textarea disabled="true">{{employee.apply.reason}}</textarea>
+              </nz-form-control>
+            </nz-form-item>
+            <button style="float: right" nz-button nzType="primary" (click)="submit(employee.id)">Submit</button>
+          </form>
+          <nz-select tyle="float: right" nzPlaceHolder="Select status type" [(ngModel)]="employee.apply.approval">
+            <nz-option nzValue="approved" nzLabel="Approved"></nz-option>
+            <nz-option nzValue="declined" nzLabel="declined"></nz-option>
+            <nz-option nzValue="pending" nzLabel="Pending"></nz-option>
+          </nz-select>
+      </nz-card>
+    </div>
+
+  </div>
+
+</ng-container>
+
+
+</nz-drawer>
