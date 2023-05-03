@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { DatePipe } from '@angular/common';
 import { NgxCsvParserModule } from 'ngx-csv-parser';
+import { NgParticlesModule } from "ng-particles";
 
 
 import { NzAffixModule } from 'ng-zorro-antd/affix';
@@ -134,8 +136,10 @@ registerLocaleData(en);
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-
     NgxCsvParserModule,
+    NgParticlesModule,
+
+
     NzAffixModule,
     NzAlertModule,
     NzAnchorModule,
